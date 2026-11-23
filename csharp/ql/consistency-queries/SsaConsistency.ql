@@ -11,7 +11,7 @@ query predicate localDeclWithSsaDef(LocalVariableDeclExpr d) {
   exists(SsaExplicitWrite def |
     d = def.getDefinition().(AssignableDefinitions::LocalVariableDefinition).getDeclaration()
   |
-    not d = any(ForEachStmt fs).getVariableDeclExpr() and
+    not exists(ForEachStmt fs, int i | d.getVariable() = fs.getVariable(i)) and
     not d = any(SpecificCatchClause scc).getVariableDeclExpr() and
     not d.getVariable().getType() instanceof Struct and
     not d instanceof PatternExpr and
